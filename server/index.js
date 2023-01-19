@@ -1,11 +1,15 @@
-const express = require('express')
-const mongoose = require('mongoose');
-require('dotenv').config()
-const routes = require('./routes');
+import express from 'express';
+import mongoose from 'mongoose';
 
-mongoose.connect(process.env.DATABASE_URL);
+import dotenv from 'dotenv'
+import { router } from './router/index.js'
 
 const database = mongoose.connection
+const app = express();
+const port = 3000;
+
+dotenv.config()
+mongoose.connect(process.env.DATABASE_URL);
 
 database.on('error', (error) => {
   console.log(error)
@@ -15,11 +19,8 @@ database.once('connected', () => {
   console.log('Database Connected');
 })
 
-const app = express();
-const port = 3000;
-
 app.use(express.json());
-app.use('/api', routes)
+app.use('/api', router)
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`)

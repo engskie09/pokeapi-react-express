@@ -1,8 +1,11 @@
-const express = require('express');
+import express from 'express';
+import Pokedex from 'pokedex-promise-v2';
 
-const Trainer = require('../models/trainer');
+import { Trainer } from '../models/trainer.js'
 
-const router = express.Router()
+const pokedex = new Pokedex();
+
+export const router = express.Router()
 
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
@@ -36,4 +39,9 @@ router.post('/login', async (req, res) => {
     });
 })
 
-module.exports = router;
+router.get('/pokemons', async (req, res) => {
+    pokedex.getPokemonsList({limit: 10, offset: 10 }).then((response) => {
+        console.log(response);
+        res.status(200).json(response);
+    })
+})
