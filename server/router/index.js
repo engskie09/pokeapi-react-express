@@ -1,9 +1,11 @@
-const express = require('express');
-const http = require('http');
+import express from 'express';
+import Pokedex from 'pokedex-promise-v2';
 
-const Trainer = require('../models/trainer');
+import { Trainer } from '../models/trainer.js'
 
-const router = express.Router()
+const pokedex = new Pokedex();
+
+export const router = express.Router()
 
 router.post('/register', async (req, res) => {
     const { username, password } = req.body;
@@ -38,29 +40,8 @@ router.post('/login', async (req, res) => {
 })
 
 router.get('/pokemons', async (req, res) => {
-
-    var options = {
-        host: 'pokeapi.co',
-        path: '/api/v2/pokemon',
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      }
-    
-      var request = http.request(options, function(response) {
-        //proxyResponse.setEncoding('utf8');
-        response.on('data', function (chunk) {
-            console.log(chunk);
-            res.status(200).send({
-              ... JSON.parse(chunk)
-            });
-        });
-
-        response.on('end', function () {
-            console.log(response);
-        });
-      });
-    
-      request.end();
+    pokedex.getPokemonsList({limit: 10, offset: 10 }).then((response) => {
+        console.log(response);
+        res.status(200).json(response);
+    })
 })
-
-module.exports = router;
