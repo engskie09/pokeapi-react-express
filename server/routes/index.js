@@ -1,4 +1,5 @@
 const express = require('express');
+const http = require('http');
 
 const Trainer = require('../models/trainer');
 
@@ -34,6 +35,32 @@ router.post('/login', async (req, res) => {
             console.log(error)
         }
     });
+})
+
+router.get('/pokemons', async (req, res) => {
+
+    var options = {
+        host: 'pokeapi.co',
+        path: '/api/v2/pokemon',
+        method: 'GET',
+        headers: { 'Content-Type': 'application/json' }
+      }
+    
+      var request = http.request(options, function(response) {
+        //proxyResponse.setEncoding('utf8');
+        response.on('data', function (chunk) {
+            console.log(chunk);
+            res.status(200).send({
+              ... JSON.parse(chunk)
+            });
+        });
+
+        response.on('end', function () {
+            console.log(response);
+        });
+      });
+    
+      request.end();
 })
 
 module.exports = router;
