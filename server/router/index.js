@@ -2,6 +2,7 @@ import express from 'express';
 import Pokedex from 'pokedex-promise-v2';
 
 import { Trainer } from '../models/trainer.js'
+import { generateAccessToken, authenticateToken } from '../utilities/jwt.js';
 
 const pokedex = new Pokedex();
 
@@ -31,7 +32,7 @@ router.post('/login', async (req, res) => {
     query.select('username');
     query.exec(function (error, response) {
         if (response) {
-            res.status(200).json({"message": "sucessfully login"});
+            res.status(200).json({"message": "sucessfully login", "token": generateAccessToken(response.username)});
         } else {
             res.status(400).json({"message": "invalid username or password"});
             console.log(error)
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
     });
 })
 
-router.get('/pokemons', async (req, res) => {
+router.get('/pokemons', authenticateToken, async (req, res) => {
     pokedex.getPokemonsList({limit: 10, offset: 10 }).then((response) => {
         console.log(response);
         res.status(200).json(response);
