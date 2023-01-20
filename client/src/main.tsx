@@ -4,6 +4,8 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 import { Login } from './components/login';
+import { Register } from './components/register';
+
 import { store } from './utilities/store';
 
 const Main = () => (
@@ -11,6 +13,7 @@ const Main = () => (
         <BrowserRouter>
             <Routes>
                 <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
             </Routes>
         </BrowserRouter>
     </Provider>

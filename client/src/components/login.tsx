@@ -83,7 +83,7 @@ export const Login = () => {
                                     Login
                                 </Button>
                                 <Button variant="outlined">
-                                    <Link to="/sign-up" style={style.action.link}>
+                                    <Link to="/register" style={style.action.link}>
                                         Not registered yet? signup now.
                                     </Link>
                                 </Button>
