@@ -2,7 +2,12 @@ import { useState, FormEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 import { trainerAPI } from '../utilities/store';
+
+const swal = withReactContent(Swal);
 
 export const useLogin = () => {
     const form = useForm<any>({
@@ -16,9 +21,9 @@ export const useLogin = () => {
 
         login(form.getValues()).then((response) => {
             if ('data' in response) {
-                alert('success');
+                swal.fire('Succesfully Login', '', 'success');
             } else if ('error' in response && 'status' in response.error) {
-                alert('try again');
+                swal.fire('Try Again', '', 'error');
             }
         });
     };
