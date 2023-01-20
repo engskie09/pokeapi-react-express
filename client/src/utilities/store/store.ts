@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import { trainerAPI } from './slice/api';
+import { sessionComponent } from './slice/component';
 
 export const store = configureStore({
     reducer: {
         [trainerAPI.reducerPath]: trainerAPI.reducer,
+        [sessionComponent.name]: sessionComponent.reducer,
     },
     middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trainerAPI.middleware),
     devTools: import.meta.env.MODE === 'dev',
