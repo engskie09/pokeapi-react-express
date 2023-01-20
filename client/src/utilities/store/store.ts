@@ -1,11 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { authAPI } from './slice/api';
+import { trainerAPI } from './slice/api';
 
 export const store = configureStore({
     reducer: {
-        [authAPI.reducerPath]: authAPI.reducer,
+        [trainerAPI.reducerPath]: trainerAPI.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(authAPI.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trainerAPI.middleware),
     devTools: import.meta.env.MODE === 'dev',
 });
 
