@@ -18,6 +18,15 @@ export const trainerAPI = createApi({
                 }),
                 invalidatesTags: ['auth'],
             }),
+
+            register: builder.mutation<void, Credential>({
+                query: ({ ...payload }) => ({
+                    method: 'POST',
+                    url: 'register',
+                    body: payload,
+                }),
+                invalidatesTags: ['auth'],
+            }),
         };
     },
 });
