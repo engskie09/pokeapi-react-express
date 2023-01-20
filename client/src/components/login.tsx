@@ -18,8 +18,11 @@ import {
 import { ThemeStyleType } from '../utilities/style';
 import { useLogin } from '../hooks/login';
 
+import pokemonLogo from '../assets/pokemon-logo.png';
+
 const style = {
     container: { marginTop: 5 } as ThemeStyleType,
+    logo: { width: 150, height: '100%' } as CSSProperties,
     form: { maxWidth: 400 } as ThemeStyleType,
     icon: { fontSize: '70px', margin: 'auto', width: '100%', marginTop: -4 } as ThemeStyleType,
     title: { textAlign: 'center' } as ThemeStyleType,
@@ -40,7 +43,7 @@ export const Login = () => {
                     <Card>
                         <CardContent>
                             <Typography variant="h4" component="p" sx={style.title}>
-                                Login
+                                <img style={style.logo} src={pokemonLogo} alt="pokemonLogo" />
                             </Typography>
                             <Grid container>
                                 <Grid item sm={12} marginBottom={1} width="100%">
@@ -79,7 +82,7 @@ export const Login = () => {
                                 <Button variant="contained" type="submit" sx={style.action.button}>
                                     Login
                                 </Button>
-                                <Button variant="text">
+                                <Button variant="outlined">
                                     <Link to="/sign-up" style={style.action.link}>
                                         Not registered yet? signup now.
                                     </Link>
