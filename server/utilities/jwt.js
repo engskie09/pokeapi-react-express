@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 
 const generateAccessToken = (username) => {
-    return jwt.sign(username, process.env.TOKEN_SECRET, { expiresIn: '1800s' });
+    return jwt.sign({username}, process.env.TOKEN_SECRET, { expiresIn: '60h' });
 }
 
 const authenticateToken = (req, res, next) => {
