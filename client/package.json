@@ -13,6 +13,7 @@
     "@mui/material": "^5.11.5",
     "@mui/system": "^5.11.5",
     "@reduxjs/toolkit": "^1.9.1",
+    "js-convert-case": "^4.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.42.1",

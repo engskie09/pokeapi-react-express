@@ -5,6 +5,7 @@ import { Provider } from 'react-redux';
 
 import { Login } from './components/login';
 import { Register } from './components/register';
+import { Pokemons } from './components/pokemons';
 
 import { store } from './utilities/store';
 
@@ -14,6 +15,7 @@ const Main = () => (
             <Routes>
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
+                <Route path="/pokemons" element={<Pokemons />} />
             </Routes>
         </BrowserRouter>
     </Provider>
