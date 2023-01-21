@@ -3,8 +3,9 @@ import Pokedex from 'pokedex-promise-v2';
 
 import { Trainer } from '../models/trainer.js'
 import { generateAccessToken, authenticateToken } from '../utilities/jwt.js';
+import { paginate } from '../utilities/common.js';
 
-const pokedex = new Pokedex();
+const pokedex = new Pokedex({cacheLimit: 120 * 1000});
 
 export const router = express.Router()
 
@@ -56,9 +57,13 @@ router.get('/verify-token', authenticateToken, async (req, res) => {
 })
 
 router.get('/pokemons', authenticateToken, async (req, res) => {
-    const { limit, offset } = req.query;
+    const { page_size, page_number } = req.query;
 
-    pokedex.getPokemonsList({ offset, limit }).then((response) => {
+    pokedex.getPokemonsList({ limit: 2000, offset: 0 }).then((response) => {
+        const results = paginate(response.results, Number(page_size), Number(page_number))
+
+        console.log(results)
+
         res.status(200).json(response);
     })
 })
