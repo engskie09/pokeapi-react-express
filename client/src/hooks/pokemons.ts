@@ -5,11 +5,19 @@ import { pokemonAPI } from '../utilities/store/slice/api';
 
 import { useAppSelector, useAppDispatch, pokemonComponent } from '../utilities/store';
 
-export const usePokemons = () => {
+interface UsePokemonsProps {
+    offset: number;
+}
+
+export const usePokemons = (props: UsePokemonsProps) => {
+    const { offset } = props;
+
+    console.log('offset', offset);
+
     const [pokemons, setPokemons] = useState<never[]>([]);
     const dispatch = useAppDispatch();
 
-    pokemonAPI.usePokemonsQuery({ offset: 0, limit: 20 });
+    pokemonAPI.usePokemonsQuery({ offset, limit: 20 });
 
     const pokemonsState: any[] = useAppSelector((state) => state.pokemonComponent.pokemons);
     const countState: number = useAppSelector((state) => state.pokemonComponent.count);

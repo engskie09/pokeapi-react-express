@@ -23,7 +23,7 @@ export const pokemonAPI = createApi({
             pokemons: builder.query<any, { limit: number; offset: number }>({
                 query: ({ limit, offset }) => ({
                     method: 'GET',
-                    url: `pokemons?limit=${limit}&offsset=${offset}`,
+                    url: `pokemons?limit=${limit}&offset=${offset}`,
                 }),
                 transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
                 providesTags: ['pokemons'],

@@ -1,3 +1,4 @@
+import { ChangeEvent, useState } from 'react';
 import { Box, Container, Grid, Typography, Paper, Pagination } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
@@ -34,8 +35,13 @@ const PokemonsStyle = {
 };
 
 export const Pokemons = () => {
-    const { pokemons, count } = usePokemons();
-    // console.log(pokemons)
+    const [page, setPage] = useState(0);
+
+    const { pokemons, count } = usePokemons({ offset: page });
+
+    const handleOnChange = (event: ChangeEvent<unknown>, currentPage: number) => {
+        setPage(currentPage);
+    };
 
     return (
         <Container maxWidth="md" sx={PokemonsStyle.container}>
@@ -49,10 +55,12 @@ export const Pokemons = () => {
                 </Grid>
             </Box>
             <Pagination
+                onChange={handleOnChange}
                 count={count}
                 color="primary"
                 variant="outlined"
                 shape="rounded"
+                size="large"
                 sx={PokemonsStyle.pagination}
             />
         </Container>
