@@ -1,12 +1,22 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 
 import { Auth } from '../../model/trainer';
+import type { RootState } from '../../store';
 
 export const trainerAPI = createApi({
     reducerPath: 'trainerAPI',
     tagTypes: ['auth'],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_API_URL}`,
+        prepareHeaders: (headers, { getState }) => {
+            const { token } = (getState() as RootState).sessionComponent;
+
+            if (token) {
+                headers.set('Authorization', `Bearer ${token}`);
+            }
+
+            return headers;
+        },
     }),
     endpoints(builder) {
         return {
@@ -25,7 +35,14 @@ export const trainerAPI = createApi({
                     url: 'register',
                     body: payload,
                 }),
-                invalidatesTags: ['auth'],
+            }),
+
+            verifyToken: builder.mutation({
+                query: () => ({
+                    method: 'GET',
+                    url: `verify-token`,
+                    invalidatesTags: ['auth'],
+                }),
             }),
         };
     },
