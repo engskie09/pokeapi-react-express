@@ -5,29 +5,24 @@ import { useLogin } from '../hooks/login';
 
 import pokemonLogo from '../assets/pokemon-logo.png';
 import { usePokemons } from '../hooks/pokemons';
+import { useAppSelector } from '../utilities/store';
 
 const style = {
     container: { marginTop: 5 } as ThemeStyleType,
 };
 
 export const Pokemons = () => {
-    usePokemons();
+    const { pokemons } = usePokemons();
+    //console.log(pokemons)
 
     return (
         <Container maxWidth="md" sx={style.container}>
             <Box sx={{ flexGrow: 1 }}>
                 <Grid container spacing={2}>
                     <Grid item md={3}>
-                        Pokemon
-                    </Grid>
-                    <Grid item md={3}>
-                        Pokemon
-                    </Grid>
-                    <Grid item md={3}>
-                        Pokemon
-                    </Grid>
-                    <Grid item md={3}>
-                        Pokemon
+                        {pokemons.map((pokemon: any) => (
+                            <Box key={pokemon.name}>{pokemon.name}</Box>
+                        ))}
                     </Grid>
                 </Grid>
             </Box>

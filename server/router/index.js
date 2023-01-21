@@ -57,7 +57,6 @@ router.get('/verify-token', authenticateToken, async (req, res) => {
 
 router.get('/pokemons', authenticateToken, async (req, res) => {
     pokedex.getPokemonsList({limit: 10, offset: 10 }).then((response) => {
-        console.log(response);
         res.status(200).json(response);
     })
 })

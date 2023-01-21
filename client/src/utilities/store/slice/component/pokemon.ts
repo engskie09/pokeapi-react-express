@@ -16,7 +16,7 @@ export const pokemonComponent = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addMatcher(pokemonAPI.endpoints.pokemons.matchFulfilled, (state, action) => {
-            state.pokemons = action.payload;
+            state.pokemons = action.payload.results;
         });
     },
 });
