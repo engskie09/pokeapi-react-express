@@ -11,13 +11,14 @@ export const usePokemons = () => {
 
     pokemonAPI.usePokemonsQuery();
 
-    const pokemonsPayload: any[] = useAppSelector((state) => state.pokemonComponent.pokemons);
+    const pokemonsState: any[] = useAppSelector((state) => state.pokemonComponent.pokemons);
+    const countState: number = useAppSelector((state) => state.pokemonComponent.count);
 
     useEffect(() => {
         (async () => {
-            if (pokemonsPayload.length > 0) {
+            if (pokemonsState.length > 0) {
                 const pokemonsTemp: never[] = await Promise.all(
-                    pokemonsPayload.map(async (pokemon: any) => {
+                    pokemonsState.map(async (pokemon: any) => {
                         const info = await axios.get(pokemon.url);
 
                         return { ...pokemon, info };
@@ -29,7 +30,7 @@ export const usePokemons = () => {
                 console.log(pokemonsTemp);
             }
         })();
-    }, [pokemonsPayload]);
+    }, [pokemonsState]);
 
-    return { pokemons };
+    return { pokemons, count: countState };
 };

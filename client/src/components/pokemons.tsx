@@ -1,4 +1,4 @@
-import { Box, Container, Grid, Typography, Paper } from '@mui/material';
+import { Box, Container, Grid, Typography, Paper, Pagination } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
 import { useLogin } from '../hooks/login';
@@ -30,10 +30,11 @@ const Pokemon = (props: PokemonProps) => {
 
 const PokemonsStyle = {
     container: { marginTop: 5 } as ThemeStyleType,
+    pagination: {} as ThemeStyleType,
 };
 
 export const Pokemons = () => {
-    const { pokemons } = usePokemons();
+    const { pokemons, count } = usePokemons();
     // console.log(pokemons)
 
     return (
@@ -47,6 +48,13 @@ export const Pokemons = () => {
                     ))}
                 </Grid>
             </Box>
+            <Pagination
+                count={count}
+                color="primary"
+                variant="outlined"
+                shape="rounded"
+                sx={PokemonsStyle.pagination}
+            />
         </Container>
     );
 };
