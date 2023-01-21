@@ -9,7 +9,7 @@ export const usePokemons = () => {
     const [pokemons, setPokemons] = useState<never[]>([]);
     const dispatch = useAppDispatch();
 
-    pokemonAPI.usePokemonsQuery();
+    pokemonAPI.usePokemonsQuery({ offset: 0, limit: 20 });
 
     const pokemonsState: any[] = useAppSelector((state) => state.pokemonComponent.pokemons);
     const countState: number = useAppSelector((state) => state.pokemonComponent.count);
@@ -26,8 +26,6 @@ export const usePokemons = () => {
                 );
 
                 setPokemons(pokemonsTemp);
-
-                console.log(pokemonsTemp);
             }
         })();
     }, [pokemonsState]);
