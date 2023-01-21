@@ -1,5 +1,5 @@
 import { ChangeEvent, CSSProperties, useEffect, useState } from 'react';
-import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack } from '@mui/material';
+import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack, TextField } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
 import { useLogin } from '../hooks/login';
@@ -67,8 +67,13 @@ const Pokemon = (props: PokemonProps) => {
     );
 };
 
-const PokemonsStyle = {
+const pokemonsStyle = {
     container: { marginTop: 5 } as ThemeStyleType,
+    filter: {
+        container: {
+            margin: 1,
+        } as ThemeStyleType,
+    },
     pagination: {
         display: 'table',
         margin: 'auto',
@@ -81,12 +86,19 @@ export const Pokemons = () => {
 
     const { pokemons, count, isFetchingInfo } = usePokemons({ pageNumber: page });
 
-    const handleOnChange = (event: ChangeEvent<unknown>, currentPage: number) => {
+    const handlePaginationOnChange = (event: ChangeEvent<unknown>, currentPage: number) => {
         setPage(currentPage);
     };
 
+    const handleFilterOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+        console.log(event.target.value);
+    };
+
     return (
-        <Container maxWidth="lg" sx={PokemonsStyle.container}>
+        <Container maxWidth="lg" sx={pokemonsStyle.container}>
+            <Box sx={pokemonsStyle.filter.container}>
+                <TextField onChange={handleFilterOnChange} label="Search Pokemon" variant="outlined" />
+            </Box>
             <Box>
                 <Grid container spacing={2} direction="row" sx={{ display: isFetchingInfo ? 'none' : '' }}>
                     {pokemons.map((pokemon: any) => (
@@ -107,13 +119,13 @@ export const Pokemons = () => {
                 </Grid>
             </Box>
             <Pagination
-                onChange={handleOnChange}
+                onChange={handlePaginationOnChange}
                 count={count}
                 color="primary"
                 variant="outlined"
                 shape="rounded"
                 size="large"
-                sx={PokemonsStyle.pagination}
+                sx={pokemonsStyle.pagination}
             />
         </Container>
     );
