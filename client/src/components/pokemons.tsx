@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from 'react';
-import { Box, Container, Grid, Typography, Paper, Pagination } from '@mui/material';
+import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
 import { useLogin } from '../hooks/login';
@@ -37,7 +37,7 @@ const PokemonsStyle = {
 export const Pokemons = () => {
     const [page, setPage] = useState(0);
 
-    const { pokemons, count } = usePokemons({ offset: page });
+    const { pokemons, count, isFetching } = usePokemons({ offset: page });
 
     const handleOnChange = (event: ChangeEvent<unknown>, currentPage: number) => {
         setPage(currentPage);
@@ -45,11 +45,21 @@ export const Pokemons = () => {
 
     return (
         <Container maxWidth="md" sx={PokemonsStyle.container}>
-            <Box sx={{ flexGrow: 1 }}>
-                <Grid container spacing={2} direction="row">
+            <Box>
+                <Grid container spacing={2} direction="row" sx={{ display: isFetching ? 'none' : '' }}>
                     {pokemons.map((pokemon: any) => (
                         <Grid key={pokemon.info.data.id} item md={3}>
                             <Pokemon pokemon={pokemon} />
+                        </Grid>
+                    ))}
+                </Grid>
+
+                <Grid container spacing={2} direction="row" sx={{ display: isFetching ? '' : 'none' }}>
+                    {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19].map((index: any) => (
+                        <Grid key={index} item md={3}>
+                            <Stack spacing={1}>
+                                <Skeleton variant="rectangular" width={210} height={120} />
+                            </Stack>
                         </Grid>
                     ))}
                 </Grid>

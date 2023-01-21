@@ -20,7 +20,8 @@ export const usePokemons = (props: UsePokemonsProps) => {
     pokemonAPI.usePokemonsQuery({ offset, limit: 20 });
 
     const pokemonsState: any[] = useAppSelector((state) => state.pokemonComponent.pokemons);
-    const countState: number = useAppSelector((state) => state.pokemonComponent.count);
+    const count: number = useAppSelector((state) => state.pokemonComponent.count);
+    const isFetching: boolean = useAppSelector((state) => state.pokemonComponent.isFetching);
 
     useEffect(() => {
         (async () => {
@@ -38,5 +39,5 @@ export const usePokemons = (props: UsePokemonsProps) => {
         })();
     }, [pokemonsState]);
 
-    return { pokemons, count: countState };
+    return { pokemons, count, isFetching };
 };
