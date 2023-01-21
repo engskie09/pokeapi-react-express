@@ -18,9 +18,9 @@ export const usePokemons = () => {
             if (pokemonsPayload.length > 0) {
                 const pokemonsTemp: never[] = await Promise.all(
                     pokemonsPayload.map(async (pokemon: any) => {
-                        const data = await axios.get(pokemon.url);
+                        const info = await axios.get(pokemon.url);
 
-                        return { ...pokemon, data };
+                        return { ...pokemon, info };
                     }) as never[],
                 );
 
