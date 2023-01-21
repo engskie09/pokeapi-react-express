@@ -43,5 +43,25 @@ export const sessionComponent = createSlice({
             state.token = action.payload.token;
             state.isAuthenticated = true;
         });
+
+        builder.addMatcher(trainerAPI.endpoints.verifyToken.matchFulfilled, (state, action) => {
+            if (Object.keys(action.payload).length !== 0) {
+                state.trainer = action.payload;
+                state.isAuthenticated = true;
+                console.log(action.payload);
+            }
+        });
+
+        builder.addMatcher(trainerAPI.endpoints.verifyToken.matchRejected, (state, action) => {
+            if (action.payload) {
+                if (action.payload.status === 403) {
+                    state.token = '';
+                    state.trainer = undefined;
+                    state.isAuthenticated = false;
+
+                    localStorage.removeItem('token');
+                }
+            }
+        });
     },
 });

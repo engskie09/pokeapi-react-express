@@ -1,13 +1,15 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { trainerAPI } from './slice/api';
-import { sessionComponent } from './slice/component';
+import { trainerAPI, pokemonAPI } from './slice/api';
+import { sessionComponent, pokemonComponent } from './slice/component';
 
 export const store = configureStore({
     reducer: {
         [trainerAPI.reducerPath]: trainerAPI.reducer,
+        [pokemonAPI.reducerPath]: pokemonAPI.reducer,
         [sessionComponent.name]: sessionComponent.reducer,
+        [pokemonComponent.name]: pokemonComponent.reducer,
     },
-    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trainerAPI.middleware),
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(trainerAPI.middleware, pokemonAPI.middleware),
     devTools: import.meta.env.MODE === 'dev',
 });
 
