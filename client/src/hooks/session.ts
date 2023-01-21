@@ -2,8 +2,6 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppSelector, useAppDispatch, sessionComponent, trainerAPI } from '../utilities/store';
 
-const initialPath = window.location.pathname;
-
 interface UseSessionProps {
     interval: number;
 }
@@ -50,7 +48,7 @@ export const useSession = (props: UseSessionProps) => {
 
         if (mounted)
             if (isAuthenticated) {
-                navigate(initialPath);
+                navigate('/pokemons');
             } else {
                 navigate('/login');
             }
