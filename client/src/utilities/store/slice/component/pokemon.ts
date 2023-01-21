@@ -25,7 +25,7 @@ export const pokemonComponent = createSlice({
 
         builder.addMatcher(pokemonAPI.endpoints.pokemons.matchFulfilled, (state, action) => {
             state.pokemons = action.payload.results;
-            state.count = action.payload.count;
+            state.count = Math.ceil(action.payload.count / 20);
             state.isFetching = false;
         });
     },

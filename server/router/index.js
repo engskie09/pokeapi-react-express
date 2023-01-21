@@ -62,7 +62,7 @@ router.get('/pokemons', authenticateToken, async (req, res) => {
     pokedex.getPokemonsList({ limit: 2000, offset: 0 }).then((response) => {
         const results = paginate(response.results, Number(page_size), Number(page_number))
 
-        console.log(results)
+        response.results = results;
 
         res.status(200).json(response);
     })
