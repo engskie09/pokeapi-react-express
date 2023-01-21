@@ -40,6 +40,21 @@ router.post('/login', async (req, res) => {
     });
 })
 
+router.get('/verify-token', authenticateToken, async (req, res) => {
+    const { username } = req.payload;
+
+    const query = Trainer.findOne({username});
+    query.select('id username');
+    query.exec(function (error, response) {
+        if (response) {
+            res.status(200).json({"message": "token verified", "username": response.username, "id": response.id});
+        } else {
+            res.status(400).json({"message": "invalid payload"});
+            console.log(error)
+        }
+    });
+})
+
 router.get('/pokemons', authenticateToken, async (req, res) => {
     pokedex.getPokemonsList({limit: 10, offset: 10 }).then((response) => {
         console.log(response);
