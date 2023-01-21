@@ -7,12 +7,27 @@ import { useLogin } from '../hooks/login';
 import pokemonLogo from '../assets/pokemon-logo.png';
 import { usePokemons } from '../hooks/pokemons';
 import { useAppSelector } from '../utilities/store';
+import { pokemonTypes } from '../utilities/contant';
 
 const pokemonStyle = {
     container: {
+        margin: 1,
         textAlign: 'center',
     } as ThemeStyleType,
     image: { width: '96px', height: '96px' } as CSSProperties,
+    typesContainer: {
+        marginLeft: 0.5,
+    } as ThemeStyleType,
+    typeContainer: {
+        width: 'max-content',
+        marginLeft: 1,
+        borderRadius: 2,
+    } as ThemeStyleType,
+    typeLabel: {
+        margin: 0.5,
+        fontSize: 20,
+        color: '#fff',
+    } as ThemeStyleType,
 };
 
 interface PokemonProps {
@@ -21,9 +36,27 @@ interface PokemonProps {
 
 const Pokemon = (props: PokemonProps) => {
     const { pokemon } = props;
-
+    const { types } = pokemon.info.data;
+    console.log(pokemon);
     return (
-        <Paper elevation={2} sx={pokemonStyle.container}>
+        <Paper elevation={5} sx={pokemonStyle.container}>
+            <Grid container spacing={1} direction="row" sx={pokemonStyle.typesContainer}>
+                {types.map((type: any) => (
+                    <Grid key={type.type.name} item>
+                        <Box
+                            sx={{
+                                ...pokemonStyle.typeContainer,
+                                backgroundColor: pokemonTypes[type.type.name as keyof typeof pokemonTypes],
+                            }}
+                        >
+                            <Typography variant="subtitle1" sx={pokemonStyle.typeLabel}>
+                                {type.type.name}
+                            </Typography>
+                        </Box>
+                    </Grid>
+                ))}
+            </Grid>
+
             <img
                 src={pokemon.info.data.sprites.front_default ?? pokemonLogo}
                 alt={pokemon.info.data.sprites.front_default}
@@ -39,7 +72,7 @@ const PokemonsStyle = {
     pagination: {
         display: 'table',
         margin: 'auto',
-        paddingTop: 5
+        paddingTop: 5,
     } as ThemeStyleType,
 };
 
