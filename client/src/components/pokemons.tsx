@@ -43,7 +43,6 @@ const Pokemon = (props: PokemonProps) => {
     const navigate = useNavigate();
     const { types } = pokemon.info.data;
 
-    console.log(pokemon);
     return (
         <Paper
             onClick={() => {
@@ -108,7 +107,6 @@ export const Pokemons = () => {
     const handleFilterOnChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
         setPage(1);
-        console.log('hehe', event.target.value);
     };
 
     return (

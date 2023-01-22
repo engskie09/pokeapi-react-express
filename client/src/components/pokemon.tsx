@@ -60,7 +60,7 @@ const style = {
 
 export const Pokemon = () => {
     const { pokemon, types, moves } = usePokemon();
-    console.log(moves);
+
     return (
         <Container maxWidth="sm" sx={style.container}>
             <Typography sx={style.title}>
