@@ -8,6 +8,7 @@ import { Login } from './components/login';
 import { Register } from './components/register';
 import { Pokemon } from './components/pokemon';
 import { Pokemons } from './components/pokemons';
+import { Favorites } from './components/favorites';
 
 import { store } from './utilities/store';
 import { Session } from './components/session';
@@ -21,6 +22,7 @@ const Main = () => (
                 <Route path="/register" element={<Register />} />
                 <Route path="/pokemon/:name" element={<Pokemon />} />
                 <Route path="/pokemons" element={<Pokemons />} />
+                <Route path="/favorites" element={<Favorites />} />
                 <Route path="*" element={<span>Not Found</span>} />
             </Routes>
         </BrowserRouter>

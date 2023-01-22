@@ -18,8 +18,6 @@ export const usePokemons = (props: UsePokemonsProps) => {
 
     const { refetch } = pokemonAPI.usePokemonsQuery({ pageSize: 20, pageNumber, name });
 
-    console.log(pageNumber);
-
     const pokemonsState: any[] = useAppSelector((state) => state.pokemonComponent.pokemons);
     const count: number = useAppSelector((state) => state.pokemonComponent.count);
     const isFetching: boolean = useAppSelector((state) => state.pokemonComponent.isFetching);
