@@ -48,15 +48,19 @@ const style = {
             fontSize: 20,
             color: '#fff',
         } as ThemeStyleType,
+        ability: {
+            type: {
+                textAlign: 'center',
+                width: 100,
+                borderRadius: 2,
+            } as ThemeStyleType,
+        },
     },
 };
 
 export const Pokemon = () => {
-    const { pokemon } = usePokemon();
-    const { moves, types } = pokemon ? pokemon.info.data : { moves: [], types: [] };
-
+    const { pokemon, types, moves } = usePokemon();
     console.log(moves);
-
     return (
         <Container maxWidth="sm" sx={style.container}>
             <Typography sx={style.title}>
@@ -87,8 +91,18 @@ export const Pokemon = () => {
                             {moves.map((move: any) => (
                                 <ListItem key={move.move.name} disablePadding>
                                     <ListItemButton>
-                                    <ListItemText primary={move.move.name} />
-                                    {move.move.name}
+                                        <ListItemText primary={move.move.name} />
+                                        <Box
+                                            sx={{
+                                                ...style.pokemon.ability.type,
+                                                backgroundColor:
+                                                    pokemonTypes[move.info.data.type.name as keyof typeof pokemonTypes],
+                                            }}
+                                        >
+                                            <Typography variant="subtitle1" sx={style.pokemon.typeLabel}>
+                                                {move.info.data.type.name}
+                                            </Typography>
+                                        </Box>
                                     </ListItemButton>
                                 </ListItem>
                             ))}

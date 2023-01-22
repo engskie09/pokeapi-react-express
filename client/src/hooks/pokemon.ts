@@ -10,6 +10,8 @@ export const usePokemon = () => {
 
     const [isFetchingInfo, setIsFetchingInfo] = useState<boolean>(true);
     const [pokemon, setPokemon] = useState<any>();
+    const [types, setTypes] = useState<any[]>([]);
+    const [moves, setMoves] = useState<any[]>([]);
 
     pokemonAPI.usePokemonQuery({ name: params.name ?? '' });
 
@@ -28,5 +30,24 @@ export const usePokemon = () => {
         })();
     }, [pokemonState]);
 
-    return { pokemon, isFetchingInfo };
+    useEffect(() => {
+        if (pokemon) {
+            const { moves: dataMove, types: dataTypes } = pokemon ? pokemon.info.data : { moves: [], types: [] };
+
+            (async () => {
+                const movesTemp: any[] = await Promise.all(
+                    dataMove.map(async (move: any) => {
+                        const info = await axios.get(move.move.url);
+
+                        return { ...move, info };
+                    }) as never[],
+                );
+                setMoves(movesTemp);
+            })();
+
+            setTypes(dataTypes);
+        }
+    }, [pokemon]);
+
+    return { pokemon, types, moves, isFetchingInfo };
 };
