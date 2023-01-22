@@ -1,6 +1,6 @@
 import { useParams, useNavigate } from 'react-router-dom';
 
-import { pokemonAPI } from '../utilities/store';
+import { useAppSelector, useAppDispatch, pokemonAPI } from '../utilities/store';
 
 export const usePokemon = () => {
     const params = useParams();
