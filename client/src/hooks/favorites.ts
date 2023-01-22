@@ -10,13 +10,16 @@ export const useFavorites = () => {
     const [isFetchingInfo, setIsFetchingInfo] = useState<boolean>(true);
     const [favorites, setFavorites] = useState<Favorite[]>([]);
 
+    pokemonAPI.useFavoritesQuery();
+
     const favoritesState = useAppSelector((state) => state.pokemonComponent.favorites);
 
     useEffect(() => {
-        if (favoritesState.length > 0) {
-            setIsFetchingInfo(true);
-            console.log(favoritesState);
-        }
+        // if (favoritesState.length > 0) {
+        //     setIsFetchingInfo(true);
+        //     console.log(favoritesState);
+        // }
+        console.log(favoritesState);
     }, [favoritesState]);
 
     return { favorites, isFetchingInfo };

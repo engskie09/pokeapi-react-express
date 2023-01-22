@@ -31,9 +31,15 @@ const style = {
 
 export const Favorites = () => {
     const { favorites } = useFavorites();
-    return <Container maxWidth="sm" sx={style.container}>
-        <Typography sx={style.title}>
+
+    return (
+        <Container maxWidth="sm" sx={style.container}>
+            <Typography sx={style.title}>
                 <img style={style.logo} src={pokemonLogo} alt="pokemonLogo" />
             </Typography>
-    </Container>;
+            <Box>
+                {JSON.stringify(favorites)}
+            </Box>
+        </Container>
+    );
 };

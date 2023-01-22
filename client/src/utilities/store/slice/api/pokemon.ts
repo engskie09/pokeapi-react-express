@@ -26,7 +26,6 @@ export const pokemonAPI = createApi({
                     method: 'GET',
                     url: `pokemons?page_size=${pageSize}&page_number=${pageNumber}&name=${name}`,
                 }),
-                transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
                 providesTags: ['pokemons'],
             }),
 
@@ -35,17 +34,15 @@ export const pokemonAPI = createApi({
                     method: 'GET',
                     url: `pokemon/${name}`,
                 }),
-                transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
                 providesTags: ['pokemon'],
             }),
 
-            favorites: builder.query<Favorite, void>({
+            favorites: builder.query<any, void>({
                 query: () => ({
                     method: 'GET',
                     url: 'favorites',
                 }),
-                transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
-                providesTags: ['pokemons'],
+                providesTags: ['favorites'],
             }),
 
             addFavorite: builder.mutation<void, { pokemon: string }>({
