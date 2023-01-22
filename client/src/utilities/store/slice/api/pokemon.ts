@@ -37,7 +37,7 @@ export const pokemonAPI = createApi({
                 providesTags: ['pokemon'],
             }),
 
-            favorites: builder.query<any, void>({
+            favorites: builder.query<Favorite[], void>({
                 query: () => ({
                     method: 'GET',
                     url: 'favorites',
