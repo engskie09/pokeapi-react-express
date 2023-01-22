@@ -1,9 +1,14 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
+import Swal from 'sweetalert2';
+import withReactContent from 'sweetalert2-react-content';
+
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { useAppSelector, useAppDispatch, pokemonAPI } from '../utilities/store';
+
+const swal = withReactContent(Swal);
 
 export const usePokemon = () => {
     const params = useParams();
@@ -14,6 +19,9 @@ export const usePokemon = () => {
     const [moves, setMoves] = useState<any[]>([]);
 
     pokemonAPI.usePokemonQuery({ name: params.name ?? '' });
+
+    const [addFavorite] = pokemonAPI.useAddFavoriteMutation();
+    const [deleteFavorite] = pokemonAPI.useDeleteFavoriteMutation();
 
     const pokemonState: any = useAppSelector((state) => state.pokemonComponent.pokemon);
 
@@ -49,5 +57,26 @@ export const usePokemon = () => {
         }
     }, [pokemon]);
 
-    return { pokemon, types, moves, isFetchingInfo };
+    const handleOnAddFavorite = () => {
+
+        addFavorite({ pokemon: pokemon.name, url: pokemon.url }).then((response) => {
+            if ('data' in response) {
+                swal.fire((response.data as any).message, '', 'success');
+            } else if ('error' in response && 'status' in response.error) {
+                swal.fire('Try Again', '', 'error');
+            }
+        });
+    };
+
+    const handleOnDeleteFavorite = () => {
+        deleteFavorite({ pokemon: pokemon.name }).then((response) => {
+            if ('data' in response) {
+                swal.fire((response.data as any).message, '', 'success');
+            } else if ('error' in response && 'status' in response.error) {
+                swal.fire('Try Again', '', 'error');
+            }
+        });
+    };
+
+    return { pokemon, types, moves, isFetchingInfo, handleOnAddFavorite, handleOnDeleteFavorite };
 };
