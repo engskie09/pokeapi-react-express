@@ -48,7 +48,6 @@ export const sessionComponent = createSlice({
             if (Object.keys(action.payload).length !== 0) {
                 state.trainer = action.payload;
                 state.isAuthenticated = true;
-                console.log(action.payload);
             }
         });
 
