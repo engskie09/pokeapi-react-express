@@ -9,7 +9,7 @@ export const usePokemon = () => {
     const params = useParams();
 
     const [isFetchingInfo, setIsFetchingInfo] = useState<boolean>(true);
-    const [pokemon, setPokemon] = useState<never[]>([]);
+    const [pokemon, setPokemon] = useState<any>();
 
     pokemonAPI.usePokemonQuery({ name: params.name ?? '' });
 

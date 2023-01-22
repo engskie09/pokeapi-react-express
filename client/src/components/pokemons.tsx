@@ -113,7 +113,7 @@ export const Pokemons = () => {
 
     return (
         <Container maxWidth="lg" sx={pokemonsStyle.container}>
-            <Typography variant="h4" component="p" sx={pokemonsStyle.title}>
+            <Typography sx={pokemonsStyle.title}>
                 <img style={pokemonsStyle.logo} src={pokemonLogo} alt="pokemonLogo" />
             </Typography>
             <Box sx={pokemonsStyle.filter.container}>
