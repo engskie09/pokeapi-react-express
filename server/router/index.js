@@ -68,3 +68,15 @@ router.get('/pokemons', authenticateToken, async (req, res) => {
         res.status(200).json(response);
     })
 })
+
+router.get('/pokemon/:name', authenticateToken, async (req, res) => {
+    const { name } = req.params;
+
+    pokedex.getPokemonsList({ limit: 2000, offset: 0 }).then((response) => {
+        const results = response.results;
+
+        const pokemon = results.find((result) => result.name === name);
+
+        res.status(200).json(pokemon);
+    })
+})
