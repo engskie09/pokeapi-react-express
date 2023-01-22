@@ -73,13 +73,33 @@ router.get('/pokemons', authenticateToken, async (req, res) => {
 
 router.get('/pokemon/:name', authenticateToken, async (req, res) => {
     const { name } = req.params;
+    const { username } = req.payload;
 
     pokedex.getPokemonsList({ limit: 2000, offset: 0 }).then((response) => {
         const results = response.results;
 
         const pokemon = results.find((result) => result.name === name);
 
-        res.status(200).json(pokemon);
+        const trainerQuery = Trainer.findOne({username});
+        trainerQuery.select('id username');
+        trainerQuery.exec(async (error, response) => {
+            if (response) {
+                const favoriteQuery = Favorite.findOne({trainer_id: response.id, pokemon: name});
+                favoriteQuery.exec((error, response) => {
+                    if (response) {
+                        pokemon.is_favorite = true;
+                        res.status(200).json(pokemon);
+                    } else {
+                        pokemon.is_favorite = false;
+                        res.status(200).json(pokemon);
+                    }   
+                })
+                
+            } else {
+                res.status(400).json({"message": "invalid payload"});
+                console.log(error)
+            }
+        });
     })
 });
 

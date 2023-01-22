@@ -17,6 +17,9 @@ import {
     Divider,
 } from '@mui/material';
 
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+
 import { usePokemon } from '../hooks/pokemon';
 
 import pokemonLogo from '../assets/pokemon-logo.png';
@@ -48,6 +51,10 @@ const style = {
             fontSize: 20,
             color: '#fff',
         } as ThemeStyleType,
+        favorite: {
+            marginLeft: 'auto',
+            marginRight: 2,
+        } as ThemeStyleType,
         ability: {
             type: {
                 textAlign: 'center',
@@ -60,6 +67,10 @@ const style = {
 
 export const Pokemon = () => {
     const { pokemon, types, moves } = usePokemon();
+
+    const handleOnFavorite = () => {
+        alert('fav?')
+    }
 
     return (
         <Container maxWidth="sm" sx={style.container}>
@@ -84,6 +95,10 @@ export const Pokemon = () => {
                                     </Box>
                                 </Grid>
                             ))}
+                            <Grid item sx={style.pokemon.favorite}>
+                                <StarIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                                <StarBorderIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                            </Grid>
                         </Grid>
                         <img style={style.logo} src={pokemon.info.data.sprites.front_default} alt="pokemonLogo" />
                         <Typography sx={style.pokemon.name}>{pokemon.name}</Typography>
