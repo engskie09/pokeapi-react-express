@@ -1,4 +1,5 @@
 import { ChangeEvent, CSSProperties, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack, TextField } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
@@ -39,10 +40,18 @@ interface PokemonProps {
 
 const Pokemon = (props: PokemonProps) => {
     const { pokemon } = props;
+    const navigate = useNavigate();
     const { types } = pokemon.info.data;
+
     console.log(pokemon);
     return (
-        <Paper elevation={5} sx={pokemonStyle.container}>
+        <Paper
+            onClick={() => {
+                navigate(`/pokemon/${pokemon.name}`);
+            }}
+            elevation={5}
+            sx={pokemonStyle.container}
+        >
             <Grid container spacing={1} direction="row" sx={pokemonStyle.typesContainer}>
                 {types.map((type: any) => (
                     <Grid key={type.type.name} item>
