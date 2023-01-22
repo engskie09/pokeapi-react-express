@@ -107,7 +107,7 @@ router.get('/favorites', authenticateToken, async (req, res) => {
 });
 
 router.post('/favorite', authenticateToken, async (req, res) => {
-    const { pokemon } = req.body;
+    const { pokemon, url } = req.body;
     const { username } = req.payload;
 
     const trainerQuery = Trainer.findOne({username});
@@ -117,6 +117,7 @@ router.post('/favorite', authenticateToken, async (req, res) => {
             const favoriteQuery = new Favorite({
                 trainer_id: response.id,
                 pokemon,
+                url
             })
 
             try {

@@ -45,7 +45,7 @@ export const pokemonAPI = createApi({
                 providesTags: ['favorites'],
             }),
 
-            addFavorite: builder.mutation<void, { pokemon: string }>({
+            addFavorite: builder.mutation<void, { pokemon: string; url: string }>({
                 query: ({ ...payload }) => ({
                     method: 'POST',
                     url: 'favorite',

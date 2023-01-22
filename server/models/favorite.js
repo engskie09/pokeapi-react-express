@@ -9,6 +9,10 @@ const favoriteSchema = new mongoose.Schema({
         required: true,
         type: String
     },
+    url: {
+        required: true,
+        type: String
+    },
 })
 
 export const Favorite = mongoose.model('Favorite', favoriteSchema)
