@@ -1,4 +1,5 @@
 import { ChangeEvent, CSSProperties, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack, TextField } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
@@ -13,6 +14,9 @@ const pokemonStyle = {
     container: {
         margin: 1,
         textAlign: 'center',
+        '&:hover': {
+            backgroundColor: '#ffcb05',
+        },
     } as ThemeStyleType,
     image: { width: '96px', height: '96px' } as CSSProperties,
     typesContainer: {
@@ -36,10 +40,18 @@ interface PokemonProps {
 
 const Pokemon = (props: PokemonProps) => {
     const { pokemon } = props;
+    const navigate = useNavigate();
     const { types } = pokemon.info.data;
+
     console.log(pokemon);
     return (
-        <Paper elevation={5} sx={pokemonStyle.container}>
+        <Paper
+            onClick={() => {
+                navigate(`/pokemon/${pokemon.name}`);
+            }}
+            elevation={5}
+            sx={pokemonStyle.container}
+        >
             <Grid container spacing={1} direction="row" sx={pokemonStyle.typesContainer}>
                 {types.map((type: any) => (
                     <Grid key={type.type.name} item>
@@ -69,6 +81,8 @@ const Pokemon = (props: PokemonProps) => {
 
 const pokemonsStyle = {
     container: { marginTop: 5 } as ThemeStyleType,
+    logo: { width: 150, height: '100%' } as CSSProperties,
+    title: { textAlign: 'center' } as ThemeStyleType,
     filter: {
         container: {
             margin: 1,
@@ -99,6 +113,9 @@ export const Pokemons = () => {
 
     return (
         <Container maxWidth="lg" sx={pokemonsStyle.container}>
+            <Typography sx={pokemonsStyle.title}>
+                <img style={pokemonsStyle.logo} src={pokemonLogo} alt="pokemonLogo" />
+            </Typography>
             <Box sx={pokemonsStyle.filter.container}>
                 <TextField onChange={handleFilterOnChange} label="Search Pokemon" variant="outlined" />
             </Box>
