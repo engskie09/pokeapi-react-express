@@ -38,7 +38,7 @@ interface PokemonProps {
     pokemon: any;
 }
 
-const Pokemon = (props: PokemonProps) => {
+export const Pokemon = (props: PokemonProps) => {
     const { pokemon } = props;
     const navigate = useNavigate();
     const { types } = pokemon.info.data;
@@ -99,6 +99,8 @@ export const Pokemons = () => {
     const [name, setName] = useState<string>('');
 
     const { pokemons, count, isFetchingInfo } = usePokemons({ name, pageNumber: page });
+
+    console.log('pokemons', pokemons);
 
     const handlePaginationOnChange = (event: ChangeEvent<unknown>, currentPage: number) => {
         setPage(currentPage);

@@ -22,8 +22,8 @@ export const useFavorites = () => {
                 const favoritesTemp: never[] = await Promise.all(
                     favoritesState.map(async (pokemon: any) => {
                         const info = await axios.get(pokemon.url);
-
-                        return { ...pokemon, info };
+                        const name = pokemon.pokemon;
+                        return { ...pokemon, info, name };
                     }) as never[],
                 );
 
