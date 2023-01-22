@@ -1,11 +1,12 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { snakeKeys } from 'js-convert-case';
+import { Favorite } from '../../model/favorite';
 
 import type { RootState } from '../../store';
 
 export const pokemonAPI = createApi({
     reducerPath: 'pokemonAPI',
-    tagTypes: ['pokemon', 'pokemons'],
+    tagTypes: ['pokemon', 'pokemons', 'favorites'],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_API_URL}`,
         prepareHeaders: (headers, { getState }) => {
@@ -28,6 +29,7 @@ export const pokemonAPI = createApi({
                 transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
                 providesTags: ['pokemons'],
             }),
+
             pokemon: builder.query<any, { name: string }>({
                 query: ({ name }) => ({
                     method: 'GET',
@@ -35,6 +37,32 @@ export const pokemonAPI = createApi({
                 }),
                 transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
                 providesTags: ['pokemon'],
+            }),
+
+            favorites: builder.query<Favorite, void>({
+                query: () => ({
+                    method: 'GET',
+                    url: 'favorites',
+                }),
+                transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
+                providesTags: ['pokemons'],
+            }),
+
+            addFavorite: builder.mutation<void, { pokemon: string }>({
+                query: ({ ...payload }) => ({
+                    method: 'POST',
+                    url: 'favorite',
+                    body: payload,
+                }),
+                invalidatesTags: ['favorites'],
+            }),
+
+            deleteFavorite: builder.mutation<void, { pokemon: string }>({
+                query: ({ pokemon }) => ({
+                    method: 'DELETE',
+                    url: `favorite/${pokemon}`,
+                }),
+                invalidatesTags: ['favorites'],
             }),
         };
     },

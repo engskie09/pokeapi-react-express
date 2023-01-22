@@ -83,6 +83,29 @@ router.get('/pokemon/:name', authenticateToken, async (req, res) => {
     })
 });
 
+router.get('/favorites', authenticateToken, async (req, res) => {
+    const { username } = req.payload;
+
+    const trainerQuery = Trainer.findOne({username});
+    trainerQuery.select('id username');
+    trainerQuery.exec(async (error, response) => {
+        if (response) {
+            const favoriteQuery = Favorite.find({trainer_id: response.id});
+            favoriteQuery.exec((error, response) => {
+                if (response) {
+                    res.status(200).json(response);
+                } else {
+                    res.status(400).json({"message": "cannot delete favorite pokemon"});
+                }   
+            })
+            
+        } else {
+            res.status(400).json({"message": "invalid payload"});
+            console.log(error)
+        }
+    });
+});
+
 router.post('/favorite', authenticateToken, async (req, res) => {
     const { pokemon } = req.body;
     const { username } = req.payload;
@@ -110,8 +133,8 @@ router.post('/favorite', authenticateToken, async (req, res) => {
     });
 });
 
-router.delete('/favorite', authenticateToken, async (req, res) => {
-    const { pokemon } = req.body;
+router.delete('/favorite/:pokemon', authenticateToken, async (req, res) => {
+    const { pokemon } = req.params;
     const { username } = req.payload;
 
     const trainerQuery = Trainer.findOne({username});
