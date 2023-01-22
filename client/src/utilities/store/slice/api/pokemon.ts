@@ -5,7 +5,7 @@ import type { RootState } from '../../store';
 
 export const pokemonAPI = createApi({
     reducerPath: 'pokemonAPI',
-    tagTypes: ['pokemons'],
+    tagTypes: ['pokemon', 'pokemons'],
     baseQuery: fetchBaseQuery({
         baseUrl: `${import.meta.env.VITE_API_URL}`,
         prepareHeaders: (headers, { getState }) => {
@@ -27,6 +27,14 @@ export const pokemonAPI = createApi({
                 }),
                 transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
                 providesTags: ['pokemons'],
+            }),
+            pokemon: builder.query<any, { name: string }>({
+                query: ({ name }) => ({
+                    method: 'GET',
+                    url: `pokemon/${name}`,
+                }),
+                transformResponse: (response: any): any => snakeKeys(response, { recursive: true }) as any,
+                providesTags: ['pokemon'],
             }),
         };
     },
