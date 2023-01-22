@@ -12,8 +12,8 @@ export const usePokemons = (props: UsePokemonsProps) => {
     const { name, pageNumber } = props;
 
     const [isFetchingInfo, setIsFetchingInfo] = useState<boolean>(true);
-
     const [pokemons, setPokemons] = useState<never[]>([]);
+
     const dispatch = useAppDispatch();
 
     const { refetch } = pokemonAPI.usePokemonsQuery({ pageSize: 20, pageNumber, name });

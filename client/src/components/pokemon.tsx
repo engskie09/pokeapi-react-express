@@ -1,7 +1,7 @@
 import { usePokemon } from '../hooks/pokemon';
 
 export const Pokemon = () => {
-    const { name } = usePokemon();
+    const { pokemon } = usePokemon();
 
-    return <div>{name}</div>;
+    return <div>{JSON.stringify(pokemon)}</div>;
 };
