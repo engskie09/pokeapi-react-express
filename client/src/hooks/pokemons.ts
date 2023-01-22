@@ -6,18 +6,19 @@ import { pokemonAPI } from '../utilities/store/slice/api';
 import { useAppSelector, useAppDispatch, pokemonComponent } from '../utilities/store';
 
 interface UsePokemonsProps {
+    name: string;
     pageNumber: number;
 }
 
 export const usePokemons = (props: UsePokemonsProps) => {
-    const { pageNumber } = props;
+    const { name, pageNumber } = props;
 
     const [isFetchingInfo, setIsFetchingInfo] = useState<boolean>(true);
 
     const [pokemons, setPokemons] = useState<never[]>([]);
     const dispatch = useAppDispatch();
 
-    const { refetch } = pokemonAPI.usePokemonsQuery({ pageSize: 20, pageNumber });
+    const { refetch } = pokemonAPI.usePokemonsQuery({ pageSize: 20, pageNumber, name });
 
     console.log(pageNumber);
 
@@ -46,7 +47,7 @@ export const usePokemons = (props: UsePokemonsProps) => {
 
     useEffect(() => {
         refetch();
-    }, [pageNumber]);
+    }, [pageNumber, name]);
 
     return { pokemons, count, isFetching, isFetchingInfo };
 };

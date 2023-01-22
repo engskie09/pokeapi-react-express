@@ -57,10 +57,10 @@ router.get('/verify-token', authenticateToken, async (req, res) => {
 })
 
 router.get('/pokemons', authenticateToken, async (req, res) => {
-    const { page_size, page_number, filter } = req.query;
+    const { page_size, page_number, name } = req.query;
 
     pokedex.getPokemonsList({ limit: 2000, offset: 0 }).then((response) => {
-        const results = filterPokemonByName(response.results, filter ?? '')
+        const results = filterPokemonByName(response.results, name ?? '')
 
         response.results = paginate(results, Number(page_size), Number(page_number));
         response.count = results.length;

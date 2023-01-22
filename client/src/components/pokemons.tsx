@@ -82,16 +82,19 @@ const pokemonsStyle = {
 };
 
 export const Pokemons = () => {
-    const [page, setPage] = useState(1);
+    const [page, setPage] = useState<number>(1);
+    const [name, setName] = useState<string>('');
 
-    const { pokemons, count, isFetchingInfo } = usePokemons({ pageNumber: page });
+    const { pokemons, count, isFetchingInfo } = usePokemons({ name, pageNumber: page });
 
     const handlePaginationOnChange = (event: ChangeEvent<unknown>, currentPage: number) => {
         setPage(currentPage);
     };
 
     const handleFilterOnChange = (event: ChangeEvent<HTMLInputElement>) => {
-        console.log(event.target.value);
+        setName(event.target.value);
+        setPage(1);
+        console.log('hehe', event.target.value);
     };
 
     return (
