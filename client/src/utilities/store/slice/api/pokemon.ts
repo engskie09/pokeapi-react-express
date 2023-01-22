@@ -51,7 +51,7 @@ export const pokemonAPI = createApi({
                     url: 'favorite',
                     body: payload,
                 }),
-                invalidatesTags: ['favorites'],
+                invalidatesTags: ['favorites', 'pokemon'],
             }),
 
             deleteFavorite: builder.mutation<void, { pokemon: string }>({
@@ -59,7 +59,7 @@ export const pokemonAPI = createApi({
                     method: 'DELETE',
                     url: `favorite/${pokemon}`,
                 }),
-                invalidatesTags: ['favorites'],
+                invalidatesTags: ['favorites', 'pokemon'],
             }),
         };
     },

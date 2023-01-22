@@ -66,11 +66,15 @@ const style = {
 };
 
 export const Pokemon = () => {
-    const { pokemon, types, moves } = usePokemon();
+    const { pokemon, types, moves, handleOnAddFavorite, handleOnDeleteFavorite } = usePokemon();
 
     const handleOnFavorite = () => {
-        alert('fav?')
-    }
+        if (pokemon.is_favorite) {
+            handleOnDeleteFavorite();
+        } else {
+            handleOnAddFavorite();
+        }
+    };
 
     return (
         <Container maxWidth="sm" sx={style.container}>
@@ -96,8 +100,11 @@ export const Pokemon = () => {
                                 </Grid>
                             ))}
                             <Grid item sx={style.pokemon.favorite}>
-                                <StarIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
-                                <StarBorderIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                                {pokemon.is_favorite ? (
+                                    <StarIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                                ) : (
+                                    <StarBorderIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                                )}
                             </Grid>
                         </Grid>
                         <img style={style.logo} src={pokemon.info.data.sprites.front_default} alt="pokemonLogo" />

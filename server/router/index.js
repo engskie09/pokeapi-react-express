@@ -116,7 +116,7 @@ router.get('/favorites', authenticateToken, async (req, res) => {
                     res.status(200).json(response);
                 } else {
                     res.status(400).json({"message": "cannot delete favorite pokemon"});
-                }   
+                }
             })
             
         } else {
