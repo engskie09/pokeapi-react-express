@@ -1,5 +1,21 @@
 import { CSSProperties } from 'react';
-import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack, TextField } from '@mui/material';
+import {
+    Box,
+    Container,
+    Grid,
+    Typography,
+    Paper,
+    Pagination,
+    Skeleton,
+    Stack,
+    TextField,
+    List,
+    ListItem,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+    Divider,
+} from '@mui/material';
 
 import { usePokemon } from '../hooks/pokemon';
 
@@ -9,7 +25,7 @@ import { pokemonTypes } from '../utilities/contant';
 
 const style = {
     container: { marginTop: 5 } as ThemeStyleType,
-    logo: { width: 150, height: '100%'} as CSSProperties,
+    logo: { width: 150, height: '100%' } as CSSProperties,
     title: { textAlign: 'center', m: 2 } as ThemeStyleType,
     pokemon: {
         container: {
@@ -37,9 +53,9 @@ const style = {
 
 export const Pokemon = () => {
     const { pokemon } = usePokemon();
-    const { types } = pokemon.info.data;
+    const { moves, types } = pokemon ? pokemon.info.data : { moves: [], types: [] };
 
-    console.log(pokemon);
+    console.log(moves);
 
     return (
         <Container maxWidth="sm" sx={style.container}>
@@ -67,6 +83,16 @@ export const Pokemon = () => {
                         </Grid>
                         <img style={style.logo} src={pokemon.info.data.sprites.front_default} alt="pokemonLogo" />
                         <Typography sx={style.pokemon.name}>{pokemon.name}</Typography>
+                        <List>
+                            {moves.map((move: any) => (
+                                <ListItem key={move.move.name} disablePadding>
+                                    <ListItemButton>
+                                    <ListItemText primary={move.move.name} />
+                                    {move.move.name}
+                                    </ListItemButton>
+                                </ListItem>
+                            ))}
+                        </List>
                     </Box>
                 </Paper>
             ) : (
