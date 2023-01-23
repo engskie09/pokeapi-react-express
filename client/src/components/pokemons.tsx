@@ -1,13 +1,13 @@
 import { ChangeEvent, CSSProperties, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Box, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack, TextField } from '@mui/material';
+import { Box, Button, Container, Grid, Typography, Paper, Pagination, Skeleton, Stack, TextField } from '@mui/material';
 
 import { ThemeStyleType } from '../utilities/style';
 import { useLogin } from '../hooks/login';
 
 import pokemonLogo from '../assets/pokemon-logo.png';
 import { usePokemons } from '../hooks/pokemons';
-import { useAppSelector } from '../utilities/store';
+import { sessionComponent, useAppDispatch, useAppSelector } from '../utilities/store';
 import { pokemonTypes } from '../utilities/contant';
 
 const pokemonStyle = {
@@ -67,7 +67,6 @@ export const Pokemon = (props: PokemonProps) => {
                     </Grid>
                 ))}
             </Grid>
-
             <img
                 src={pokemon.info.data.sprites.front_default ?? pokemonLogo}
                 alt={pokemon.info.data.sprites.front_default}
@@ -87,6 +86,10 @@ const pokemonsStyle = {
             margin: 1,
         } as ThemeStyleType,
     },
+    navigation: {
+        container: { marginLeft: 'auto', marginRight: 2 } as ThemeStyleType,
+        button: { margin: 1 } as ThemeStyleType,
+    },
     pagination: {
         display: 'table',
         margin: 'auto',
@@ -97,6 +100,8 @@ const pokemonsStyle = {
 export const Pokemons = () => {
     const [page, setPage] = useState<number>(1);
     const [name, setName] = useState<string>('');
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
 
     const { pokemons, count, isFetchingInfo } = usePokemons({ name, pageNumber: page });
 
@@ -116,9 +121,47 @@ export const Pokemons = () => {
             <Typography sx={pokemonsStyle.title}>
                 <img style={pokemonsStyle.logo} src={pokemonLogo} alt="pokemonLogo" />
             </Typography>
-            <Box sx={pokemonsStyle.filter.container}>
-                <TextField onChange={handleFilterOnChange} label="Search Pokemon" variant="outlined" />
-            </Box>
+
+            <Grid container spacing={2} direction="row">
+                <Grid item sx={pokemonsStyle.filter.container}>
+                    <TextField onChange={handleFilterOnChange} label="Search Pokemon" variant="outlined" />
+                </Grid>
+                <Grid item margin={1} sx={pokemonsStyle.navigation.container}>
+                    <Button
+                        onClick={() => {
+                            navigate('/favorites');
+                        }}
+                        sx={pokemonsStyle.navigation.button}
+                        color="secondary"
+                        variant="outlined"
+                        type="button"
+                    >
+                        Favorites
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            navigate('/teams');
+                        }}
+                        sx={pokemonsStyle.navigation.button}
+                        color="primary"
+                        variant="outlined"
+                        type="button"
+                    >
+                        Teams
+                    </Button>
+                    <Button
+                        onClick={() => {
+                            dispatch(sessionComponent.actions.logout());
+                        }}
+                        sx={pokemonsStyle.navigation.button}
+                        color="error"
+                        variant="outlined"
+                        type="button"
+                    >
+                        Logout
+                    </Button>
+                </Grid>
+            </Grid>
             <Box>
                 <Grid container spacing={2} direction="row" sx={{ display: isFetchingInfo ? 'none' : '' }}>
                     {pokemons.map((pokemon: any) => (

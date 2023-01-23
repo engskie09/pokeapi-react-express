@@ -1,4 +1,6 @@
 import { CSSProperties } from 'react';
+
+import { useNavigate } from 'react-router-dom';
 import {
     Box,
     Container,
@@ -15,6 +17,7 @@ import {
     ListItemIcon,
     ListItemText,
     Divider,
+    Button,
 } from '@mui/material';
 
 import pokemonLogo from '../assets/pokemon-logo.png';
@@ -34,7 +37,7 @@ const style = {
 
 export const Favorites = () => {
     const { favorites, isFetchingInfo } = useFavorites();
-
+    const navigate = useNavigate();
     console.log('favorites', favorites);
 
     return (
@@ -44,6 +47,17 @@ export const Favorites = () => {
                 <br />
                 Your Favorite Pokemons
             </Typography>
+            <Button
+                onClick={() => {
+                    navigate(-1);
+                }}
+                sx={{ margin: 1 }}
+                color="warning"
+                variant="outlined"
+                type="button"
+            >
+                Back
+            </Button>
             <Box>
                 <Grid container spacing={2} direction="row" sx={{ display: isFetchingInfo ? 'none' : '' }}>
                     {favorites.map((pokemon: any) => (
