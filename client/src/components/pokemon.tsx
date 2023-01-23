@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 import {
     Box,
+    Button,
     Container,
     Grid,
     Typography,
@@ -17,6 +18,10 @@ import {
     Divider,
 } from '@mui/material';
 
+import StarIcon from '@mui/icons-material/Star';
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+
+import { useNavigate } from 'react-router-dom';
 import { usePokemon } from '../hooks/pokemon';
 
 import pokemonLogo from '../assets/pokemon-logo.png';
@@ -48,6 +53,10 @@ const style = {
             fontSize: 20,
             color: '#fff',
         } as ThemeStyleType,
+        favorite: {
+            marginLeft: 'auto',
+            marginRight: 2,
+        } as ThemeStyleType,
         ability: {
             type: {
                 textAlign: 'center',
@@ -59,13 +68,33 @@ const style = {
 };
 
 export const Pokemon = () => {
-    const { pokemon, types, moves } = usePokemon();
-    console.log(moves);
+    const { pokemon, types, moves, handleOnAddFavorite, handleOnDeleteFavorite } = usePokemon();
+    const navigate = useNavigate();
+
+    const handleOnFavorite = () => {
+        if (pokemon.is_favorite) {
+            handleOnDeleteFavorite();
+        } else {
+            handleOnAddFavorite();
+        }
+    };
+
     return (
         <Container maxWidth="sm" sx={style.container}>
             <Typography sx={style.title}>
                 <img style={style.logo} src={pokemonLogo} alt="pokemonLogo" />
             </Typography>
+            <Button
+                onClick={() => {
+                    navigate(-1);
+                }}
+                sx={{ marginBottom: 2 }}
+                color="warning"
+                variant="outlined"
+                type="button"
+            >
+                Back
+            </Button>
             {pokemon ? (
                 <Paper elevation={5}>
                     <Box sx={style.pokemon.container}>
@@ -84,6 +113,13 @@ export const Pokemon = () => {
                                     </Box>
                                 </Grid>
                             ))}
+                            <Grid item sx={style.pokemon.favorite}>
+                                {pokemon.is_favorite ? (
+                                    <StarIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                                ) : (
+                                    <StarBorderIcon onClick={handleOnFavorite} color="primary" fontSize="large" />
+                                )}
+                            </Grid>
                         </Grid>
                         <img style={style.logo} src={pokemon.info.data.sprites.front_default} alt="pokemonLogo" />
                         <Typography sx={style.pokemon.name}>{pokemon.name}</Typography>
