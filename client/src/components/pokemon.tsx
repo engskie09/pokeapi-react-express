@@ -1,6 +1,7 @@
 import { CSSProperties } from 'react';
 import {
     Box,
+    Button,
     Container,
     Grid,
     Typography,
@@ -20,6 +21,7 @@ import {
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 
+import { useNavigate } from 'react-router-dom';
 import { usePokemon } from '../hooks/pokemon';
 
 import pokemonLogo from '../assets/pokemon-logo.png';
@@ -67,6 +69,7 @@ const style = {
 
 export const Pokemon = () => {
     const { pokemon, types, moves, handleOnAddFavorite, handleOnDeleteFavorite } = usePokemon();
+    const navigate = useNavigate();
 
     const handleOnFavorite = () => {
         if (pokemon.is_favorite) {
@@ -81,6 +84,17 @@ export const Pokemon = () => {
             <Typography sx={style.title}>
                 <img style={style.logo} src={pokemonLogo} alt="pokemonLogo" />
             </Typography>
+            <Button
+                onClick={() => {
+                    navigate(-1);
+                }}
+                sx={{ marginBottom: 2 }}
+                color="warning"
+                variant="outlined"
+                type="button"
+            >
+                Back
+            </Button>
             {pokemon ? (
                 <Paper elevation={5}>
                     <Box sx={style.pokemon.container}>
